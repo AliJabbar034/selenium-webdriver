@@ -1,10 +1,18 @@
 pipeline {
-  agent any
-  stages {
-    stage('Test') {
-      steps {
-        sh 'python3 TestScriptMay112024.py'
-      }
+    agent any
+
+    environment {
+        PYTHON_HOME = tool name: 'Python3', type: 'hudson.plugins.python.PythonInstallation'
     }
-}
+
+    stages {
+        stage('Test') {
+            steps {
+                sh '''
+                    export PATH=${PYTHON_HOME}/bin:$PATH
+                    python3 TestScriptMay112024.py
+                '''
+            }
+        }
+    }
 }
